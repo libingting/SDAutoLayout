@@ -1323,7 +1323,11 @@ Class cellContVClass()
     } else {
         if ([view isKindOfClass:[UILabel class]]) {
             UILabel *label = (UILabel *)view;
+              ///在ios12中的layoutSubviews函数中执行“label.numberOfLines = 0”会造成死循环，
+          NSString *name = [NSString stringWithFormat:@"%s",class_getName([label class])];
+          if (!(name&&[self isKindOfClass:[UIButton class]]&&([name isEqualToString:@"UIButtonLabel"]||[name isEqualToString:@"__UIButtonLabel"]))) {
             label.numberOfLines = 0;
+          }
             if (label.text.length) {
                 if (!label.isAttributedContent) {
                     CGRect rect = [label.text boundingRectWithSize:CGSizeMake(label.width_sd, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : label.font} context:nil];
